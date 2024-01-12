@@ -15,7 +15,7 @@ void Ato::setI(int x){
 bool Ato::doAto(){
     if(i < 5){
         Serial.println("in doAto");
-        WebSerial.println("t ");
+        WebSerial.print("t ");
         i++;
         //Serial.print(i);
         ret = true;

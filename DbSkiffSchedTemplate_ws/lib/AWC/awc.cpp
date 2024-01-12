@@ -12,7 +12,7 @@ bool Awc::doAwc(){
     if(i < 5){
         //Serial.print(i);
         Serial.println("in doAwc");
-        WebSerial.println("c s");
+        WebSerial.print("c ");
         i++;
         ret = true;
     }else{
