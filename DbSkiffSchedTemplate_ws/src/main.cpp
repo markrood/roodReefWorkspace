@@ -13,6 +13,7 @@
 #include "fbdb.h"
 #include "ato.h"
 #include "awc.h"
+#include "text.h"
 
 
 //////////
@@ -28,6 +29,7 @@ FishSched *mySched;
 Database *db;
 Ato *ato;
 Awc *awc;
+Text *text;
 int test = 0;
 
 int yr = 0;
@@ -98,7 +100,7 @@ Serial.begin(115200);
   AsyncWiFiManager wifiManager(&server, &dns);
   //reset settings - for testing
   //wifiManager.resetSettings();
-  //wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,175), IPAddress(192,168,1,1), IPAddress(255,255,255,0), IPAddress(192,168,1,1), IPAddress(192,168,1,1));
+  //wifiManager.setSTASt();aticIPConfig(IPAddress(192,168,1,175), IPAddress(192,168,1,1), IPAddress(255,255,255,0), IPAddress(192,168,1,1), IPAddress(192,168,1,1));
   //set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
   wifiManager.setAPCallback(configModeCallback);
 
@@ -148,12 +150,17 @@ Serial.begin(115200);
  mySched->updateMyTime();
  ato = new Ato();
  awc = new Awc();
+ text = new Text();
  //TODO need to finish adding all the scheduler stuff  tons
  setDate();
 while(!db->setEvents(1)){
   Serial.print("x");
   delay(10000);
-}
+}  
+  int rst = text->sendHttp("Heartbeat");
+  //Serial.print("return from http is ");
+  //Serial.println(rst);
+
  delay(100);
 }
 
