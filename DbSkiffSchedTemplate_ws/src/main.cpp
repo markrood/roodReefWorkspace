@@ -7,7 +7,8 @@
 //#include <AsyncElegantOTA.h>
 #include "FS.h"
 #include "SPIFFS.h"
-//
+#include <AsyncElegantOTA.h>
+
 
 #include "fishScheduler.h"
 #include "fbdb.h"
@@ -130,8 +131,7 @@ Serial.begin(115200);
     request->send(200, "text/plain", "Hi! I am ESP32.");
   });
 
-  //AsyncElegantOTA.begin(&server);    // Start ElegantOTA
-
+    AsyncElegantOTA.begin(&server);
 
 
   server.begin();
