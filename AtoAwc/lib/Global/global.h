@@ -1,0 +1,9 @@
+extern const int NORMAL_SENSOR = 46;
+extern const int LOW_SENSOR = 21;
+extern const int LOW_NEW_WATER = 20;
+extern const int RO_PUMP = 4;
+extern const int SUMP_PUMP = 5;
+extern const int NEW_PUMP = 6;
+extern const long MAX_ATO = 180000;
+extern const long MAX_AWC_EMPTY = 399999;
+extern const long MAX_AWC_FILL = 399999;

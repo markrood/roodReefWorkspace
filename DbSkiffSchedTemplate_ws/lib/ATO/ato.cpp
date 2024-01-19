@@ -1,4 +1,5 @@
 #include "ato.h"
+#include "global.h"
 
 Ato::Ato(){
     
@@ -20,9 +21,10 @@ bool Ato::doAto(){
         //Serial.print(i);
         ret = true;
     }else{
-        ret = false;
         i = 0;
+        ret = false;
     }
     //Serial.print(ret);
+    //if
     return ret;
 }

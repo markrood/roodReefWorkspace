@@ -2,6 +2,10 @@
 	"folders": [
 		{
 			"path": "DbSkiffSchedTemplate_ws"
+		},
+		{
+			"name": "AtoAwc",
+			"path": "AtoAwc"
 		}
 	]
 }
