@@ -21,6 +21,10 @@ class Ato
     bool firstTime = true;
     long timer = 0;
     long atoRunTime = 0;
+    const int NORMAL_SENSOR = 46;
+    const int LOW_SENSOR = 21;
+    const int RO_PUMP = 4;
+    const long MAX_ATO = 180000;
   
 };
 #endif

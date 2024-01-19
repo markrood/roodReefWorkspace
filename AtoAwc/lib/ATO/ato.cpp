@@ -1,5 +1,4 @@
 #include "ato.h"
-#include "global.h"
 
 
 
@@ -23,6 +22,7 @@ bool Ato::doAto(){
         if(firstTime){
             timer = millis();
             text->sendHttp("Auto_Top_Off");
+            firstTime = false;
         }
         Serial.print("ro_ ");
         WebSerial.print("ro ");
@@ -30,7 +30,7 @@ bool Ato::doAto(){
         long current = millis() - timer;
         if(current > MAX_ATO){
             //send http message
-            int rst = text->sendHttp("Heartbeat");
+            int rst = text->sendHttp("ATO_TTL");
             digitalWrite(RO_PUMP, 0);
             firstTime = true;
             return false;
