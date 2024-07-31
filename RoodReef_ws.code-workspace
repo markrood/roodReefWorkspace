@@ -6,6 +6,14 @@
 		{
 			"name": "AtoAwc",
 			"path": "AtoAwc"
+		},
+		{
+			"name": "remote-control-with-websocket",
+			"path": "remote-control-with-websocket"
+		},
+		{
+			"name": "WappSign",
+			"path": "WappSign"
 		}
 	]
 }

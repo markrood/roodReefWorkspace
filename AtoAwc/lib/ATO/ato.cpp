@@ -1,4 +1,5 @@
 #include "ato.h"
+#include "mach.h"
 
 
 
@@ -6,6 +7,7 @@ Ato::Ato(){
     pinMode(NORMAL_SENSOR ,INPUT);
     pinMode(RO_PUMP, OUTPUT);
     text = new Text();
+    mach = new Mach();
 }
 /*
 *   RO_PUMP
@@ -17,8 +19,9 @@ void Ato::setI(int x){
 }
 
 bool Ato::doAto(){
-    
-    if(digitalRead(NORMAL_SENSOR) == 0 ){
+    mach->evapF();//
+    //if(digitalRead(NORMAL_SENSOR) == 0 ){
+        if(mach->getNormalSensor() == 0 ){//
         if(firstTime){
             timer = millis();
             text->sendHttp("Auto_Top_Off");

@@ -4,7 +4,7 @@ Awc::Awc(){
     pinMode(LOW_SENSOR ,INPUT);
     pinMode(SUMP_PUMP, OUTPUT);
     pinMode(NEW_PUMP, OUTPUT);
-    text = new Text();
+    text = new Text();//TODO put this in input
 }
 
 
@@ -41,6 +41,8 @@ bool Awc::doAwc(){
             timeStamp = millis();
             fillFirstTime = false;
         }
+        Serial.print("f_ ");
+        WebSerial.print("f ");       
         digitalWrite(NEW_PUMP, 1);
         long current = millis() - timeStamp;
         if(current > MAX_AWC_FILL){

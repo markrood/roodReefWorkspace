@@ -16,6 +16,7 @@ class Ato
 
   private:  
     Text *text;
+    Mach *mach;
     int i = 0;
     bool ret = false;
     bool firstTime = true;
