@@ -6,7 +6,11 @@
 
 
 
-WappSign::WappSign(){
+WappSign::WappSign(Firebdb *fire){
+  fdb = fire;
+  colors[0] = matrixx.Color(color7_1, color7_2, color7_3);
+  colors[1] = matrixx.Color(249, 169, 8);
+  colors[3] = matrixx.Color(249, 8, 8);
   matrixx.begin();
   matrixx.setTextWrap(false);
   matrixx.setBrightness(40);
@@ -18,7 +22,9 @@ WappSign::WappSign(){
 void WappSign::display(String str, int length){
   //length = (length+5)* -1;
   //Serial.println(length);
-  
+
+ //Serial.print("Howmany colors are : ");
+ //Serial.println(intHowmany);
 
   matrixx.fillScreen(0);
   matrixx.setCursor(xxxx, 0);
@@ -26,9 +32,147 @@ void WappSign::display(String str, int length){
     //matrixx.print(str);
     if(--xxxx < length ) {
         xxxx = matrixx.width();
-        if(++piss >= 3) piss = 0;
-        matrixx.setTextColor(colors[piss]);
+        if(++piss >= intHowmany) piss = 0;
+       matrixx.setTextColor(colors[piss]);
     }
   matrixx.show();
 }
 
+void WappSign::setColors(){
+  String strColor = fdb->getLetterColor();
+  //Serial.print("Color of text is : ");
+  //Serial.print(strColor);
+   String strHowmany =  fdb->getLetterHowmany();
+  intHowmany = strHowmany.toInt();
+  int color = strColor.toInt();
+ switch(color){    
+      case 1 :  //aqua
+        colors[0] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[1] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[2] = matrixx.Color(color1_1, color1_2, color1_3);
+
+         break;
+      case 2:  //blue
+        colors[0] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[1] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[2] = matrixx.Color(color2_1, color2_2, color2_3);
+         break;
+      case 3:  //green
+         colors[0] = matrixx.Color(color3_1, color3_2, color3_3);
+         colors[1] = matrixx.Color(color3_1, color3_2, color3_3);
+         colors[2] = matrixx.Color(color3_1, color3_2, color3_3);
+        break;
+      case 4:  //orange
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+         break;
+      case 5:  //purple
+        colors[0] = matrixx.Color(color5_1, color5_2, color5_3);
+        colors[1] = matrixx.Color(color5_1, color5_2, color5_3);
+        colors[2] = matrixx.Color(color5_1, color5_2, color5_3);
+         break;
+      case 6:  //red
+        colors[0] = matrixx.Color(color6_1, color6_2, color6_3);
+        colors[1] = matrixx.Color(color6_1, color6_2, color6_3);
+        colors[2] = matrixx.Color(color6_1, color6_2, color6_3);
+         break;
+      case 7:  //yellow
+        colors[0] = matrixx.Color(color7_1, color7_2, color7_3);
+        colors[1] = matrixx.Color(color7_1, color7_2, color7_3);
+       colors[2] = matrixx.Color(color7_1, color7_2, color7_3);
+         break;
+      case 8:  //aqua,blue, green
+        colors[0] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[1] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[2] = matrixx.Color(color3_1, color3_2, color3_3);
+         break;
+      case 9:  //orange,purple, red
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[1] = matrixx.Color(color5_1, color5_2, color6_3);
+        colors[2] = matrixx.Color(color6_1, color6_2, color6_3);
+         break;
+      case 10:  //yellow,orange, purple
+        colors[0] = matrixx.Color(color7_1, color7_2, color7_3);
+        colors[1] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[2] = matrixx.Color(color5_1, color5_2, color5_3);
+         break;
+      case 11:  //aqua, yellow, orange
+        colors[0] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[1] = matrixx.Color(color7_1, color7_2, color7_3);
+        colors[2] = matrixx.Color(color4_1, color4_2, color4_3);
+         break;
+      case 12:  //blue, aqua, yellow
+        colors[0] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[1] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[2] = matrixx.Color(color7_1, color7_2, color7_3);
+         break;
+      case 13:  //green, blue, aqua
+        colors[0] = matrixx.Color(color3_1, color3_2, color3_3);
+        colors[1] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[2] = matrixx.Color(color1_1, color1_2, color1_3);
+         break;
+      case 14:  //orange, green blue
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[1] = matrixx.Color(color3_1, color3_2, color3_3);
+        colors[2] = matrixx.Color(color2_1, color2_2, color2_3);
+         break;
+      case 15:  //purple, oragen, green
+        colors[0] = matrixx.Color(color5_1, color5_2, color5_3);
+        colors[1] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[2] = matrixx.Color(color3_1, color3_2, color3_3);
+         break;
+      case 16:  //red, purpele, orange
+        colors[0] = matrixx.Color(color6_1, color6_2, color6_3);
+        colors[1] = matrixx.Color(color5_1, color5_2, color5_3);
+        colors[2] = matrixx.Color(color4_1, color4_2, color4_3);
+         break;
+      case 17:  //yellow, red, purple
+        colors[0] = matrixx.Color(color7_1, color7_2, color7_3);
+        colors[1] = matrixx.Color(color6_1, color6_2, color6_3);
+        colors[2] = matrixx.Color(color5_1, color5_2, color5_3);
+         break;
+      case 18:  //aqua, yellow, red
+        colors[0] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[2] = matrixx.Color(color7_1, color7_2, color7_3);
+        colors[2] = matrixx.Color(color6_1, color6_2, color6_3);
+         break;
+      case 19:  //blue, aqua, yellow
+        colors[0] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[1] = matrixx.Color(color1_1, color1_2, color1_3);
+        colors[2] = matrixx.Color(color7_1, color7_2, color7_3);
+         break;
+      case 20:  //green, blue, aqua
+        colors[0] = matrixx.Color(color3_1, color3_2, color3_3);
+        colors[1] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[2] = matrixx.Color(color1_1, color1_2, color1_3);
+         break;
+      case 21:  //all colors
+        allColors[0] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[1] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[2] = matrixx.Color(color1_1, color1_2, color1_3);
+        allColors[3] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[4] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[5] = matrixx.Color(color1_1, color1_2, color1_3);
+        allColors[6] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[7] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[8] = matrixx.Color(color1_1, color1_2, color1_3);
+        allColors[9] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[10] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[11] = matrixx.Color(color1_1, color1_2, color1_3);
+        allColors[12] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[13] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[14] = matrixx.Color(color1_1, color1_2, color1_3);
+        allColors[15] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[16] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[17] = matrixx.Color(color1_1, color1_2, color1_3);
+        allColors[18] = matrixx.Color(color3_1, color3_2, color3_3);
+        allColors[19] = matrixx.Color(color2_1, color2_2, color2_3);
+        allColors[20] = matrixx.Color(color1_1, color1_2, color1_3);
+         break;
+    default :
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+   }
+}

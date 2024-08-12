@@ -6,11 +6,17 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
+#include "globalVar.h"
+#include "firebdb.h"
+
 #ifndef PSTR
  #define PSTR // Make Arduino Due happy
 #endif
 
 #define PIN 5
+                //ERIC 54 x 10
+                //Jeff 47 x 9
+                //Mark 55 x 10
 
  static Adafruit_NeoMatrix matrixx = Adafruit_NeoMatrix(54, 10, PIN,
   NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
@@ -20,18 +26,22 @@
 
 
 
-const uint16_t colors[] = {
-     matrixx.Color(249, 88, 8), matrixx.Color(249, 169, 8), matrixx.Color(249, 8, 8) }; 
 
 
 class WappSign{
     public:
-        WappSign();
+        WappSign(Firebdb *fire);
         void display(String str, int length);
+        void setColors();
 
     private:
+      Firebdb *fdb;
       int xxxx = 0;
         int piss = 0;
+        uint16_t colors[3];
+        uint16_t allColors[20];
+        int intHowmany = 3;
+
 };
 
 #endif

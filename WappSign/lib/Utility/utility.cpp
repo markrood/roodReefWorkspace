@@ -6,7 +6,7 @@
 Utility::Utility(){
 
 }
-
+/*
 int Utility::getKey(String str){
     int alphaRet = 1;
     int alphaTotal = 0;
@@ -276,8 +276,9 @@ String Utility::buildDisplayString(int key){
 			}
 
 		}
+		return "Skippy";
 }
-
+*/
 long Utility::generateHash(String str){
 long result = 0;
 for (int i = 0; i < str.length(); i++){

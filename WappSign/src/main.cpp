@@ -82,7 +82,7 @@ int dur = 0;
 
 bool onbardPinOn = false;
     long hash = 0;
-    String name = "Skippy";
+    String name = " ";
 
     
 
@@ -194,14 +194,16 @@ void setup()
   config.tcp_data_sending_retry = 1;
 
   */
- fbdb = new Firebdb();
+ 
  util = new Utility();
- sign = new WappSign();
+  fire = new Firebdb();
+ String colo =  fire->getColors(); 
+ sign = new WappSign(fire);
  volRest = new VolRest();
- fire = new Firebdb();
-Serial.println("got to 0:");
- fbdb->addFB(&fbdo);
- fbdb->getKeys();
+
+
+ //fbdb->addFB(&fbdo);
+ //fbdb->getKeys();
 
 }
 
@@ -219,11 +221,13 @@ void loop()
   ////////////////////test get volumio rest stuff ////////
         if(start){
             startTime = millis();
+            
             ret = volRest->get("http://crankit.local/api/v1/getState");
             if(ret.equals("")){
               ret = oldRet;
             }
             start = false;
+            
         }else{
 
             if(millis() - startTime >= dur){
@@ -232,6 +236,7 @@ void loop()
               ret = oldRet;
             }
                start = true;
+               
             }
 
 
@@ -241,25 +246,39 @@ void loop()
   //Serial.println(ret);
   if(ret != oldRet){
     oldRet = ret;
+   // Serial.println("got here");
     int dur = volRest->getDuration(); //don't want to call until songs
     dur = dur*1000;
+    sign->setColors();  //calls db to get the color
+      
 
     ////////////////////////////////////////////
     //  Testing title number
       //Serial.print(ret);
       //String  mystr = "After the Gold Rush (Live from Calgary, AL. 2023)";
-
-        int key = util->getKey(ret);
-        name = util->buildDisplayString(key);
+//Serial.println("got here2");
+        //int key = util->getKey(ret);
+        int key = util->generateHash(ret);
+        Serial.println(key);
+        //name = util->buildDisplayString(key);
+        String strKey = String(key);
+        name = fire->getName(strKey);
+        Serial.println("name is ");
+        Serial.print(name);
         //String keyStr = String(key);
 
         //Serial.print(",");
-        Serial.println(key);
+        
         //ret.concat(name);
+       // Serial.println("got here3");
         finalStr = ret+" : "+name;
+        Serial.println(ret);
         len = finalStr.length();
         len = len*6;
         len = len*-1;
+        //Serial.println("got here3");
+
+
         String lenStr = String (len);
         Serial.println(lenStr);
         Serial.println(finalStr);
@@ -271,13 +290,13 @@ void loop()
           Serial.println(hash);
         //  delay(1000);
         //}
-          fire->writeKeyToDb(String(hash), name);
+        fire->writeKeyToDb(String(hash), name);
   }       
   sign->display(finalStr,len);
 
 
 
-    delay(100);
+    delay(10);
 
 //sign->display("Howdy",36);
 

@@ -14,12 +14,16 @@
 class Firebdb{
     public:
         void addFB(FirebaseData *fbo);
-        void getKeys();
+        //void getKeys();
+        String getName(String key);
+        String getColors();
+        String getLetterColor();
+        String getLetterHowmany();
         void writeKeyToDb(String key, String name);
     private:
         FirebaseData *fbdo;
         bool taskCompleted = false;
-        const char* folks[16] = {"MarkDane", "MarkMckay", "MarkJeff", "CaseyKyle", "DaneJeffMckay", "DaneJeff", "JeffKyle", "Casey", "Chris", "Dane", "Eric", "Jeff", "Kyle", "Mark", "McKay", "Nat"};
+        //const char* folks[16] = {"MarkDane", "MarkMckay", "MarkJeff", "CaseyKyle", "DaneJeffMckay", "DaneJeff", "JeffKyle", "Casey", "Chris", "Dane", "Eric", "Jeff", "Kyle", "Mark", "McKay", "Nat"};
         int currentLen = 0;
         QueryFilter query;
 
