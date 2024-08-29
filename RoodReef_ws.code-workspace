@@ -14,6 +14,10 @@
 		{
 			"name": "WappSign",
 			"path": "WappSign"
+		},
+		{
+			"name": "WappOfflineSign",
+			"path": "WappOfflineSign"
 		}
 	]
 }

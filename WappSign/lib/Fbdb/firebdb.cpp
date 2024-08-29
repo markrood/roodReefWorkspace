@@ -7,16 +7,40 @@ String Firebdb::getName(String key){
     String year = "";
       String parentPath = "WappSongs/"+ key+"/Person"; 
 
-
   Firebase.getString(fd, parentPath);
+  Serial.println(fd.errorReason());
+  /*while(!fd.dataAvailable() ){
+    Firebase.getString(fd, parentPath);
+    Serial.print("@");
+    delay(100);
+  }*/
+  
   person = fd.stringData();
   parentPath = "WappSongs/"+ key+"/Year"; 
+  delay(10);
   //Serial.println(parentPath);
   Firebase.getString(fd, parentPath);
   year = fd.stringData();
   delay(100);
   String retStr = person+" : "+year;
+  fd.closeFile();
+  fd.clear();
   return retStr;
+}
+
+String Firebdb::getSunset(){
+    FirebaseData fd;
+    String sunset = "";
+    String parentPath = "WappSongs/Sunset"; 
+
+
+  Firebase.getString(fd, parentPath);
+  sunset = fd.stringData();
+
+  delay(100);
+  fd.closeFile();
+  fd.clear();
+  return sunset;
 }
 
 
@@ -31,14 +55,16 @@ void Firebdb::writeKeyToDb(String key, String name){
       String parentPath = "WappSongs/"+ key; 
   FirebaseJson json;
   json.toString(Serial, true);
-  json.set("Year", "2009");
-  json.set("Person", name);
+  json.set("Year", "2014");
+  json.set("Person", "?");
   Firebase.setJSON(fd,parentPath,json);
+    fd.closeFile();
+  fd.clear();
   delay(100);
 }
 
 String Firebdb::getColors(){
-  String colors[] = {"Aqua","Blue","Green","Oranae","Purple","Red","Yellow"};
+  String colors[] = {"Aqua","Blue","Green","Orange","Purple","Red","Yellow"};
  // Serial.println("got to half");
     query.limitToLast(50);
 
@@ -70,7 +96,7 @@ String myStr = String(colors[i]);
       FirebaseJson::IteratorValue value;
       FirebaseJsonData fjd;
       
-      if(colors[i] == "Aqua"){
+      if(colors[i].equals("Aqua") ){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -90,7 +116,7 @@ String myStr = String(colors[i]);
             Serial.println(val);
           }
         }
-      }else if (colors[i] == "Blue"){
+      }else if (colors[i].equals( "Blue")){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -110,7 +136,7 @@ String myStr = String(colors[i]);
             Serial.println(val);
           }
         }
-      }else if (colors[i] == "Green"){
+      }else if (colors[i].equals("Green")){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -130,7 +156,7 @@ String myStr = String(colors[i]);
             Serial.println(val);
           }
         }
-      }else if (colors[i] == "Orange"){
+      }else if (colors[i].equals("Orange")){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -150,7 +176,7 @@ String myStr = String(colors[i]);
             Serial.println(val);
           }
       }
-    }else if (colors[i] == "Purple"){
+    }else if (colors[i].equals("Purple")){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -170,7 +196,7 @@ String myStr = String(colors[i]);
             Serial.println(val);
           }
         }
-      }else if (colors[i] == "Red"){
+      }else if (colors[i].equals("Red")){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -190,7 +216,7 @@ String myStr = String(colors[i]);
             Serial.println(val);
           }
         }
-      } else if (colors[i] == "Yellow"){
+      } else if (colors[i].equals("Yellow")){
         for (size_t j = 0; j < len; j++)
         {
           if(j==0){
@@ -211,16 +237,21 @@ String myStr = String(colors[i]);
           }
         }
       }
+      fdd.closeFile();
+      fdd.clear();
     }
 }
+
 return "";
 }
+
+//mine is just Color Howmany, Jeff's is jColor, jHowmany, Eric's is eColor, eHowmany
 
 String Firebdb::getLetterColor(){
     FirebaseData fd;
     String color = "";
     
-      String parentPath = "WappSongs/LetterColor/Settings/eColor";
+      String parentPath = "WappSongs/LetterColor/Settings/jColor";
 
 
   Firebase.getString(fd, parentPath);
@@ -230,7 +261,8 @@ String Firebdb::getLetterColor(){
   Firebase.getString(fd, parentPath);
   color = fd.stringData();
   delay(100);
-
+  fd.closeFile();
+  fd.clear();
   return color;
 }
 
@@ -238,7 +270,7 @@ String Firebdb::getLetterHowmany(){
     FirebaseData fd;
     String howmany = "";
     
-      String parentPath = "WappSongs/LetterColor/Settings/eHowmany";
+      String parentPath = "WappSongs/LetterColor/Settings/jHowmany";
 
 
   Firebase.getString(fd, parentPath);
@@ -248,6 +280,7 @@ String Firebdb::getLetterHowmany(){
   Firebase.getString(fd, parentPath);
   howmany = fd.stringData();
   delay(100);
-
+  fd.closeFile();
+  fd.clear();
   return howmany;  
 }

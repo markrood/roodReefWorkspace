@@ -12,10 +12,12 @@ class VolRest{
         VolRest(); 
         String get(String str);
         int getDuration();
+        String getHour();
 
 
     private:
         HTTPClient http;
+
         //JSON document
         StaticJsonDocument<2048> doc;
         //String for storing server response

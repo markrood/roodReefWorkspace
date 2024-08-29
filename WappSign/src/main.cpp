@@ -71,14 +71,18 @@ bool pinOn = false;
 String oldRet = "";
 Firebdb *fire;
 
+
+
 bool start = true;
+long startTime = 0;
 int now = 0;
-int startTime = 0;
 String ret = "";
 String finalStr = "";
 int len = 0;
 int dur = 0;
 
+//String newSTr = "Homeland Refugee The Flatlanders : ? : 2009";
+#define FORMAT_LITTLEFS_IF_FAILED true
 
 bool onbardPinOn = false;
     long hash = 0;
@@ -96,7 +100,7 @@ void setup()
   //Local intialization. Once its business is done, there is no need to keep it around
   AsyncWiFiManager wifiManager(&server, &dns);
   //reset settings - for testing
-  //wifiManager.resetSettings();
+  wifiManager.resetSettings();
   //wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,175), IPAddress(192,168,1,1), IPAddress(255,255,255,0), IPAddress(192,168,1,1), IPAddress(192,168,1,1));
   //set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
   wifiManager.setAPCallback(configModeCallback);
@@ -194,12 +198,25 @@ void setup()
   config.tcp_data_sending_retry = 1;
 
   */
- 
- util = new Utility();
+     if(!LittleFS.begin(FORMAT_LITTLEFS_IF_FAILED)){
+        Serial.println("LittleFS Mount Failed");
+        return;
+    }
+
+
+ pinMode(2,OUTPUT);
+ digitalWrite(2,HIGH);
   fire = new Firebdb();
  String colo =  fire->getColors(); 
+ String sunset = fire->getSunset();
+ Serial.print("Sunset is ");
+ Serial.println(sunset);
  sign = new WappSign(fire);
+ util = new Utility(sign);
  volRest = new VolRest();
+ int intHour = util->getHour();
+ String strHour = String(intHour);
+ util->writeFile(LittleFS,"/hour.txt",strHour.c_str());
 
 
  //fbdb->addFB(&fbdo);
@@ -213,16 +230,19 @@ void loop()
   if(onbardPinOn){
     digitalWrite(2,LOW);
     onbardPinOn = false;
+    Serial.print("");
   }else{
     digitalWrite(2,HIGH);
     onbardPinOn = true;
-  }
+     Serial.print("");
+ }
   
   ////////////////////test get volumio rest stuff ////////
         if(start){
             startTime = millis();
             
             ret = volRest->get("http://crankit.local/api/v1/getState");
+            //Serial.println("called start rest");
             if(ret.equals("")){
               ret = oldRet;
             }
@@ -232,6 +252,7 @@ void loop()
 
             if(millis() - startTime >= dur){
               ret = volRest->get("http://crankit.local/api/v1/getState");
+              //Serial.println("Called dur rest");
             if(ret.equals("")){
               ret = oldRet;
             }
@@ -244,17 +265,23 @@ void loop()
     
   
   //Serial.println(ret);
-  if(ret != oldRet){
+  if(!ret.equals(oldRet) ){
     oldRet = ret;
+    String strSunset = fire->getSunset();
+    int sunset = strSunset.toInt();
+    util->checkSunset(sunset);
+      //Firebase.begin(&config, &auth);
+   // }
    // Serial.println("got here");
-    int dur = volRest->getDuration(); //don't want to call until songs
-    dur = dur*1000;
+    //dur = volRest->getDuration(); //don't want to call until songs
+    //dur = dur*1000;
+    dur = 2000;
     sign->setColors();  //calls db to get the color
       
 
     ////////////////////////////////////////////
     //  Testing title number
-      //Serial.print(ret);
+      Serial.print(ret);
       //String  mystr = "After the Gold Rush (Live from Calgary, AL. 2023)";
 //Serial.println("got here2");
         //int key = util->getKey(ret);
@@ -263,8 +290,11 @@ void loop()
         //name = util->buildDisplayString(key);
         String strKey = String(key);
         name = fire->getName(strKey);
-        Serial.println("name is ");
-        Serial.print(name);
+        Serial.print("name is ");
+        Serial.println(name);
+        if(name.equals("")){
+          ESP.restart();
+        }
         //String keyStr = String(key);
 
         //Serial.print(",");
@@ -272,7 +302,7 @@ void loop()
         //ret.concat(name);
        // Serial.println("got here3");
         finalStr = ret+" : "+name;
-        Serial.println(ret);
+        //Serial.println(ret);
         len = finalStr.length();
         len = len*6;
         len = len*-1;
@@ -280,23 +310,32 @@ void loop()
 
 
         String lenStr = String (len);
-        Serial.println(lenStr);
-        Serial.println(finalStr);
+        //Serial.println(lenStr);
+       // Serial.println(finalStr);
         
        // for(int j=0;j<10;j++){
-        hash = util->generateHash(ret);
+        //hash = util->generateHash(ret);
         //Serial.print("Hash is : ");
         
-          Serial.println(hash);
+          //Serial.println(hash);
         //  delay(1000);
         //}
-        fire->writeKeyToDb(String(hash), name);
-  }       
+        //fire->writeKeyToDb(String(key), name);
+
+  }    
+  
+  //int myLen = newSTr.length();
+  //myLen = myLen*6;
+  //myLen = myLen* -1;
   sign->display(finalStr,len);
+  //sign->display(newSTr,myLen);
 
+  if (Firebase.isTokenExpired()){
+    Firebase.refreshToken(&config);
+    Serial.println("Refresh token");
+  }
 
-
-    delay(10);
+    delay(40);
 
 //sign->display("Howdy",36);
 

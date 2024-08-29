@@ -20,6 +20,7 @@ class Firebdb{
         String getLetterColor();
         String getLetterHowmany();
         void writeKeyToDb(String key, String name);
+        String getSunset();
     private:
         FirebaseData *fbdo;
         bool taskCompleted = false;

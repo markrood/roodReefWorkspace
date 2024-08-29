@@ -13,10 +13,14 @@ WappSign::WappSign(Firebdb *fire){
   colors[3] = matrixx.Color(249, 8, 8);
   matrixx.begin();
   matrixx.setTextWrap(false);
-  matrixx.setBrightness(40);
+  matrixx.setBrightness(brightness);
   matrixx.setTextColor(colors[0]);
   xxxx  = matrixx.width();
 
+}
+
+void WappSign::setBrightness(int bright){
+  brightness = bright;
 }
 
 void WappSign::display(String str, int length){
@@ -28,23 +32,34 @@ void WappSign::display(String str, int length){
 
   matrixx.fillScreen(0);
   matrixx.setCursor(xxxx, 0);
+  matrixx.setBrightness(brightness);
     matrixx.print(str);
-    //matrixx.print(str);
     if(--xxxx < length ) {
         xxxx = matrixx.width();
         if(++piss >= intHowmany) piss = 0;
        matrixx.setTextColor(colors[piss]);
     }
   matrixx.show();
+
 }
 
 void WappSign::setColors(){
   String strColor = fdb->getLetterColor();
   //Serial.print("Color of text is : ");
+  delay(100);
   //Serial.print(strColor);
    String strHowmany =  fdb->getLetterHowmany();
+   //if(checkIfCharIsInt(strHowmany)){
   intHowmany = strHowmany.toInt();
-  int color = strColor.toInt();
+  // }else{
+   // intHowmany = 3;
+  // }
+  int color = 1;
+  //if(checkIfCharIsInt(strColor)){
+    color = strColor.toInt();
+  //}else{
+  //  color = 1;
+  //}
  switch(color){    
       case 1 :  //aqua
         colors[0] = matrixx.Color(color1_1, color1_2, color1_3);
@@ -170,9 +185,26 @@ void WappSign::setColors(){
         allColors[19] = matrixx.Color(color2_1, color2_2, color2_3);
         allColors[20] = matrixx.Color(color1_1, color1_2, color1_3);
          break;
+      case 22:  //green, red, aqua
+        colors[0] = matrixx.Color(color3_1, color3_2, color3_3);
+        colors[0] = matrixx.Color(color6_1, color6_2, color6_3);
+        colors[2] = matrixx.Color(color1_1, color1_2, color1_3);
+         break;
     default :
-        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
-        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
-        colors[0] = matrixx.Color(color4_1, color4_2, color4_3);
+        colors[0] = matrixx.Color(color3_1, color3_2, color3_3);
+        colors[1] = matrixx.Color(color2_1, color2_2, color2_3);
+        colors[2] = matrixx.Color(color1_1, color1_2, color1_3);
    }
+}
+
+
+ bool WappSign::checkIfCharIsInt(String str){
+  //bool retVal = false;
+  char *buff[5];
+  str.toCharArray(*buff,str.length(),0);
+ for (int x = 0; x < strlen(*buff); ++x)
+    {
+        if (!isdigit(*buff[x])) return true;
+    }
+    return false;
 }
