@@ -18,6 +18,10 @@
 		{
 			"name": "WappOfflineSign",
 			"path": "WappOfflineSign"
+		},
+		{
+			"name": "MaryAnnsBoat",
+			"path": "../../PlatformIO/Projects/MaryAnnsBoat"
 		}
 	]
 }

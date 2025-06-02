@@ -55,8 +55,8 @@ void Firebdb::writeKeyToDb(String key, String name){
       String parentPath = "WappSongs/"+ key; 
   FirebaseJson json;
   json.toString(Serial, true);
-  json.set("Year", "2014");
-  json.set("Person", "?");
+  json.set("Year", "2007");
+  json.set("Person", "Jeff");
   Firebase.setJSON(fd,parentPath,json);
     fd.closeFile();
   fd.clear();
@@ -251,7 +251,7 @@ String Firebdb::getLetterColor(){
     FirebaseData fd;
     String color = "";
     
-      String parentPath = "WappSongs/LetterColor/Settings/jColor";
+      String parentPath = "WappSongs/LetterColor/Settings/eColor";
 
 
   Firebase.getString(fd, parentPath);
@@ -270,7 +270,7 @@ String Firebdb::getLetterHowmany(){
     FirebaseData fd;
     String howmany = "";
     
-      String parentPath = "WappSongs/LetterColor/Settings/jHowmany";
+      String parentPath = "WappSongs/LetterColor/Settings/eHowmany";
 
 
   Firebase.getString(fd, parentPath);

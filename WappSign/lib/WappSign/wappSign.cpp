@@ -187,7 +187,7 @@ void WappSign::setColors(){
          break;
       case 22:  //green, red, aqua
         colors[0] = matrixx.Color(color3_1, color3_2, color3_3);
-        colors[0] = matrixx.Color(color6_1, color6_2, color6_3);
+        colors[1] = matrixx.Color(color6_1, color6_2, color6_3);
         colors[2] = matrixx.Color(color1_1, color1_2, color1_3);
          break;
     default :

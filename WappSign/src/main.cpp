@@ -100,7 +100,7 @@ void setup()
   //Local intialization. Once its business is done, there is no need to keep it around
   AsyncWiFiManager wifiManager(&server, &dns);
   //reset settings - for testing
-  wifiManager.resetSettings();
+ // wifiManager.resetSettings();
   //wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,175), IPAddress(192,168,1,1), IPAddress(255,255,255,0), IPAddress(192,168,1,1), IPAddress(192,168,1,1));
   //set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
   wifiManager.setAPCallback(configModeCallback);
@@ -241,7 +241,8 @@ void loop()
         if(start){
             startTime = millis();
             
-            ret = volRest->get("http://crankit.local/api/v1/getState");
+            //ret = volRest->get("http://crankit.local/api/v1/getState");
+            ret = volRest->get("http://192.168.1.65/api/v1/getState");
             //Serial.println("called start rest");
             if(ret.equals("")){
               ret = oldRet;
@@ -251,7 +252,8 @@ void loop()
         }else{
 
             if(millis() - startTime >= dur){
-              ret = volRest->get("http://crankit.local/api/v1/getState");
+              //ret = volRest->get("http://crankit.local/api/v1/getState");
+              ret = volRest->get("http://192.168.1.65/api/v1/getState");
               //Serial.println("Called dur rest");
             if(ret.equals("")){
               ret = oldRet;
